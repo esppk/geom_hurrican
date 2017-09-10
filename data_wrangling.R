@@ -27,7 +27,10 @@ data_ <- r %>% gather(key, value, -storm_id, -date, -latitude, -longitude) %>%
     spread(direction, value) %>% 
     mutate(wind_speed, wind_speed = str_sub(wind_speed, -2, -1))
     
-katrina <- data_ %>% filter(storm_id == "AL1205")
+katrina <- data_ %>% filter(storm_id == "AL1205") %>% 
+    mutate(longitude = -longitude)
+
+storm_observation <- katrina %>% filter(date == ymd_hms("2005-08-29 12:00:00"))
 
 
 
