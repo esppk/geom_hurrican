@@ -7,6 +7,9 @@ StatHurricane <- ggproto("StatHurricane", Stat,
                                                   bearing_ = c(seq(0,89), seq(90,179),
                                                                seq(180,269), seq(270,359)))
 
+                            # x <- data$x
+                            # y <- data$y
+
                             dat_ <- data %>%
                                 dplyr::rename(wind_speed = fill) %>%
                                 dplyr::select(wind_speed, ne,se,sw,nw) %>%
@@ -18,7 +21,7 @@ StatHurricane <- ggproto("StatHurricane", Stat,
                                 dplyr::select(-dir) %>%
                                 tidyr::gather(wind_speed, dist_, -dir_,-bearing_)
 
-                            points <- geosphere::destPoint(c(23.1, -75.1), dat_$bearing_,
+                            points <- geosphere::destPoint(c(data$y, data$x), dat_$bearing_,
                                                            dat_$dist_)  %>% as.data.frame() %>%
                                 bind_cols(dat_ %>% select(wind_speed))
 
